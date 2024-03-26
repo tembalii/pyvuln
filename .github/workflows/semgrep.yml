@@ -22,3 +22,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: semgrep ci &> output.txt
+    - name: Upload output.txt as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: semgrep-output
+        path: output.txt
