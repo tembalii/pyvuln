@@ -31,7 +31,7 @@ jobs:
           ls -la
           find . -name 'report.json'
       - name: Upload Semgrep JSON report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: semgrep-report
           path: report.json
