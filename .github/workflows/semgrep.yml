@@ -25,5 +25,10 @@ jobs:
         echo "Running semgrep and dumping results to JSON file"
         semgrep ci --json --output report.json || true
         json_file=report.json
+    - name: Debugging
+      run: |
+        pwd
+        ls -la
+        find . -name 'report.json'
 
 
