@@ -1,16 +1,17 @@
+name: Semgrep
+
 on:
   workflow_dispatch: {}
   pull_request: {}
   push:
     branches:
-    - main
-    - master
+      - main
+      - master
     paths:
-    - .github/workflows/semgrep.yml
+      - .github/workflows/semgrep.yml
   schedule:
-  # random HH:MM to avoid a load spike on GitHub Actions at 00:00
-  - cron: 43 21 * * *
-name: Semgrep
+    - cron: 43 21 * * *
+
 jobs:
   semgrep:
     name: semgrep/ci
@@ -20,21 +21,17 @@ jobs:
     container:
       image: returntocorp/semgrep
     steps:
-    - uses: actions/checkout@v3
-    - run: |
-        echo "Running semgrep and dumping results to JSON file"
-        semgrep ci --json --o report.json || true
-        json_file=report.json
-    - name: Debugging
-      run: |
-        pwd
-        ls -la
-        find . -name 'report.json'
-    - name: Upload Semgrep JSON report
-      uses: actions/upload-artifact@v2
-      with:
-        name: semgrep-report
-        path: ${{ json_file }}
-
-
-
+      - uses: actions/checkout@v3
+      - run: |
+          echo "Running semgrep and dumping results to JSON file"
+          semgrep ci --json --o report.json || true
+      - name: Debugging
+        run: |
+          pwd
+          ls -la
+          find . -name 'report.json'
+      - name: Upload Semgrep JSON report
+        uses: actions/upload-artifact@v2
+        with:
+          name: semgrep-report
+          path: report.json
