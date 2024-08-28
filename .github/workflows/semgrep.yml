@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - main
-      - master
+      - develop01
     paths:
       - .github/workflows/semgrep.yml
   schedule:
@@ -24,9 +24,9 @@ jobs:
       - uses: actions/checkout@v3
       - run: |
           echo "Running semgrep and dumping results to JSON file"
-          semgrep ci --baseline-commit a4c07dc65ca33592cab556dc8247d2cb449426ba > output.txt
-      - name: Upload Semgrep JSON report
-        uses: actions/upload-artifact@v4
-        with:
-          name: semgrep-report
-          path: output.txt
+          semgrep ci --baseline-commit a4c07dc65ca33592cab556dc8247d2cb449426ba 
+      # - name: Upload Semgrep JSON report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: semgrep-report
+      #     path: output.txt
