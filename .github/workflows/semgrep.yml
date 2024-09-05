@@ -7,7 +7,7 @@ on:
   # Scan mainline branches and report all findings:
   push:
     branches:
-      - development
+      - develop01
       - "bugfix-**"
       - "bugfix/**"
       - "feature-**"
