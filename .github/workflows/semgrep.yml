@@ -1,42 +1,22 @@
-# Name of this GitHub Actions workflow.
-name: Semgrep DIFF
-
 on:
-  # Scan changed files in PRs (diff-aware scanning):
+  workflow_dispatch: {}
   pull_request: {}
-  # Scan mainline branches and report all findings:
   push:
     branches:
-      - develop01
-      - "bugfix-**"
-      - "bugfix/**"
-      - "feature-**"
-      - "feature/**"
-      - "hotfix-**"
-      - "release-**"
-
+    - develop01
+    paths:
+    - .github/workflows/semgrep.yml
+name: Semgrep
 jobs:
   semgrep:
-    runs-on: ubuntu-latest
+    name: semgrep/ci
+    runs-on: ubuntu-20.04
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+    container:
+      image: returntocorp/semgrep
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Mark Git directory as safe
-        run: |
-          git config --global --add safe.directory $(pwd)
-
-      - name: Set Variables
-        env:
-          COMMIT_SHA: ${{ github.sha }}
-        run: |
-          # Concatenate ~1 to the commit SHA
-          TARGET_COMMIT="${COMMIT_SHA}~1"
-          echo "TARGET_COMMIT=$TARGET_COMMIT" >> $GITHUB_ENV
-
-      - name: Semgrep Scan
-        run: semgrep ci --baseline-commit=$TARGET_COMMIT --verbose --timeout=15 --timeout-threshold=5
-        env:
-          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+    - uses: actions/checkout@v4
+      with: 
+        fetch-depth: 0
+    - run: semgrep ci --baseline-commit ${{ github.sha }} #diff-aware
