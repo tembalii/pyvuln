@@ -1,0 +1,11 @@
+rules:
+  - id: ruby-string-interpolation-taint
+    languages:
+      - ruby
+    severity: ERROR
+    message: Potential tainted data in string interpolation detected.
+    pattern-sources:
+      - pattern: '"Ada"'
+    pattern-sinks:
+      - pattern: '"...#{...}..."'
+    mode: taint
