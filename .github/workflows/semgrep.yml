@@ -1,20 +1,76 @@
+name: semgrep resuable workflow
 on:
-  workflow_dispatch: {}
-  pull_request: {}
-  push:
-    branches:
-    - develop01
-    paths:
-    - .github/workflows/semgrep.yml
-name: Semgrep
+  workflow_call:
+
 jobs:
-  semgrep:
-    name: semgrep/ci
-    runs-on: ubuntu-20.04
-    env:
-      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+  semgrep-full-scan:
+    # User definable name of this GitHub Actions job.
+    name: semgrep/ci-full
+    # If you are self-hosting, change the following runs-on value:
+    runs-on: semgrep-dind
+
     container:
+      # A Docker image with Semgrep installed. Do not change this.
       image: semgrep/semgrep:latest
+
+    # Skip any PR created by dependabot to avoid permission issues and only for push requests:
+    if: (github.actor != 'dependabot[bot]') && (github.event_name == 'push')
+
     steps:
-    - uses: actions/checkout@v4
-    - run: semgrep ci 
+      # Fetch project source with GitHub Actions Checkout. Use either v3 or v4.
+      - uses: actions/checkout@v4
+      # Run the "semgrep ci" command on the command line of the docker image.
+      - run: semgrep ci --max-target-bytes 10000 --exclude='/test/' --exclude='Testutils/' --exclude='.webp' --exclude='.png' --exclude='.svg' --exclude='.woff' --exclude='.woff2' --exclude='.jpg' --exclude='.glb' --exclude='.pdf' --exclude='.lock' --exclude='.md' --exclude='.xml' --exclude='.pro'
+        env:
+          # Connect to Semgrep AppSec Platform through your SEMGREP_APP_TOKEN.
+          # Generate a token from Semgrep AppSec Platform > Settings
+          # and add it to your GitHub secrets.
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+  semgrep-schedule-scan:
+    # User definable name of this GitHub Actions job.
+    name: semgrep/ci-schedule
+    # If you are self-hosting, change the following runs-on value:
+    runs-on: semgrep-dind
+
+    container:
+      # A Docker image with Semgrep installed. Do not change this.
+      image: semgrep/semgrep:latest
+
+    # Skip any PR created by dependabot to avoid permission issues and only for pull_requests:
+    if: (github.actor != 'dependabot[bot]') && (github.event_name == 'schedule')
+
+    steps:
+      # Fetch project source with GitHub Actions Checkout. Use either v3 or v4.
+      - uses: actions/checkout@v4
+      # Run the "semgrep ci" command on the command line of the docker image.
+      - run: semgrep ci --max-target-bytes 10000 --exclude='/test/' --exclude='Testutils/' --exclude='.webp' --exclude='.png' --exclude='.svg' --exclude='.woff' --exclude='.woff2' --exclude='.jpg' --exclude='.glb' --exclude='.pdf' --exclude='.lock' --exclude='.md' --exclude='.xml' --exclude='.pro'
+        env:
+          # Connect to Semgrep AppSec Platform through your SEMGREP_APP_TOKEN.
+          # Generate a token from Semgrep AppSec Platform > Settings
+          # and add it to your GitHub secrets.
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+  semgrep-incremental-scan:
+    # User definable name of this GitHub Actions job.
+    name: semgrep/ci-incremental
+    # If you are self-hosting, change the following runs-on value:
+    runs-on: custom-dind
+
+    container:
+      # A Docker image with Semgrep installed. Do not change this.
+      image: semgrep/semgrep:latest
+
+    # Skip any PR created by dependabot to avoid permission issues and only for pull_requests:
+    if: (github.actor != 'dependabot[bot]') && (github.event_name == 'pull_request')
+
+    steps:
+      # Fetch project source with GitHub Actions Checkout. Use either v3 or v4.
+      - uses: actions/checkout@v4
+      # Run the "semgrep ci" command on the command line of the docker image.
+      - run: semgrep ci --max-target-bytes 10000 --max-memory 1024 --exclude='/test/' --exclude='Testutils/' --exclude='.webp' --exclude='.png' --exclude='.svg' --exclude='.woff' --exclude='.woff2' --exclude='.jpg' --exclude='.glb' --exclude='.pdf' --exclude='.lock' --exclude='.md' --exclude='.xml' --exclude='.pro'
+        env:
+          # Connect to Semgrep AppSec Platform through your SEMGREP_APP_TOKEN.
+          # Generate a token from Semgrep AppSec Platform > Settings
+          # and add it to your GitHub secrets.
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
