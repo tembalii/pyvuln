@@ -9,8 +9,7 @@ on:
   # Scan mainline branches if there are changes to .github/workflows/semgrep.yml:
   push:
     branches:
-      - main
-      - master
+      - develop01
     paths:
       - .github/workflows/semgrep.yml
   # Schedule the CI job (this method uses cron syntax):
