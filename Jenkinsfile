@@ -1,34 +1,17 @@
 pipeline {
-      agent any
+      agent {
+            docker { image 'semgrep:latest' }
+      }
       environment {
         SEMGREP_APP_TOKEN = "29af6223e028131f32f2a125bc534773c58287affe1df9f897f858f9c549d244"
         SEMGREP_BASELINE_REF = "origin/develop01"
         SEMGREP_BASELINE_COMMIT = ""
       }
-      stages {
-        stage('Semgrep-Scan') {
-         steps {
-          script {
-            if (env.BITBUCKET_PULL_REQUEST_ID) {
-              echo "Semgrep diff scan"
-              sh '''git checkout ${BITBUCKET_PULL_REQUEST_LATEST_COMMIT_FROM_SOURCE_BRANCH}'''
-              sh '''git fetch origin +ref/heads/*:refs/remotes/origin/*'''
-              sh '''docker run \
-                -e SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN \
-                -e SEMGREP_PR_ID=${BITBUCKET_PULL_REQUEST_ID} \
-                -e SEMGREP_BASELINE_REF=$SEMGREP_BASELINE_REF \
-                -v "$(pwd):$(pwd)" --workdir $(pwd) \
-                 semgrep/semgrep semgrep ci'''
-              }
-              else {
-                 echo "Semgrep full scans"
-                 sh '''docker run \
-                   -e SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN \
-                   -v "$(pwd):$(pwd)" --workdir $(pwd) \
-                   semgrep/semgrep semgrep ci'''
-               }
-             }
-           }
-         }
-      }
+    stages {
+        stage('Semgrep') {
+            steps {
+                sh 'semgrep ci --code'
+            }
+        }
+    }
 }
