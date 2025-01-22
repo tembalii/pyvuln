@@ -6,7 +6,7 @@ on:
   pull_request: {}
   # Scan on-demand through GitHub Actions interface:
   workflow_dispatch: {}
-  # Scan mainline branches if there are changes to .github/workflows/semgrep.yml:
+  # Scan mainline branches if there are changes
   push:
     branches:
       - develop01
