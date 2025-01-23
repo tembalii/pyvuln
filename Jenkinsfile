@@ -13,7 +13,7 @@ pipeline {
                 sh """
                      semgrep --version
                      #Additional params: --verbose | --debug | --max-memory=1024 --max-target-bytes=1500000
-                     semgrep ci --code
+                     semgrep scan
                    """
             }
         }
