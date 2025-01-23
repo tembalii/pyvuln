@@ -7,7 +7,7 @@ pipeline {
         SEMGREP_BASELINE_REF = "origin/develop01"
       }
     stages {
-        stage('Semgrep') {
+        stage('Semgrep Scan') {
             steps {
                 sh 'semgrep ci --code'
             }
