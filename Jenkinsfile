@@ -10,7 +10,11 @@ pipeline {
     stages {
         stage('Semgrep Scan') {
             steps {
-                sh 'semgrep ci --code'
+                sh """
+                     semgrep --version
+                     #Additional params: --verbose | --debug | --max-memory=1024 --max-target-bytes=1500000
+                     semgrep scan --max-memory=1024 --json-output=semgrep.json --verbose
+                   """
             }
         }
     }
