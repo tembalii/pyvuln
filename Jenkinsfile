@@ -1,21 +1,21 @@
 pipeline {
-      agent {
-            docker { image 'semgrep/semgrep:latest' 
-                      args '-v ${PWD}/src'
-                      args '--rm'
+    agent {
+        docker {
+            image 'semgrep/semgrep:latest'
+            args '--rm -v ${WORKSPACE}:/src'
         }
-      }
-      environment {
+    }
+    environment {
         SEMGREP_APP_TOKEN = "29af6223e028131f32f2a125bc534773c58287affe1df9f897f858f9c549d244"
         SEMGREP_BASELINE_REF = "origin/develop01"
-        HOME = "${env.WORKSPACE}"
-      }
+        HOME = "${WORKSPACE}"
+    }
     stages {
         stage('Semgrep Scan') {
             steps {
                 sh """
-                     semgrep scan
-                   """
+                    semgrep scan
+                """
             }
         }
     }
