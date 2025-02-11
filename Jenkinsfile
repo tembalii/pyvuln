@@ -20,9 +20,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            archiveArtifacts artifacts: 'semgrep.json', onlyIfSuccessful: true
-        }
-    }
 }
