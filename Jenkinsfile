@@ -14,6 +14,9 @@ pipeline {
         stage('Semgrep Scan') {
             steps {
                 sh """
+                    ls .
+                    ls ..
+                    ls ${HOME}
                     semgrep --version
                     semgrep scan --max-memory=1024 --json-output=semgrep.json --verbose || true
                 """
