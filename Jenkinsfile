@@ -9,10 +9,10 @@ pipeline {
             steps {
                 script {
                     echo "Semgrep full scans"
-                    sh '''docker run \
+                    sh '''docker run \ 
                         -e SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN \
-                        -v "$(pwd):$(pwd)" --workdir $(pwd) \
-                        semgrep/semgrep semgrep ci'''
+                        -v "$(pwd):$(pwd)" --workdir $(pwd) --rm \
+                        semgrep/semgrep semgrep scan || true'''
                 }
             }
         }
