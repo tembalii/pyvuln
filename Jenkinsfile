@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'semgrep/semgrep:latest'
-            args '--rm -v ${WORKSPACE}/src'
+            args '--rm -v ${WORKSPACE}:/src'
         }
     }
     environment {
@@ -26,4 +26,3 @@ pipeline {
         }
     }
 }
-
