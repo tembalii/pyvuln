@@ -37,5 +37,4 @@ jobs:
       # Run the "semgrep ci" command on the command line of the docker image.
       - run: semgrep ci
         env:
-          # Connect to Semgrep AppSec Platform through your SEMGREP_APP_TOKEN.
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
