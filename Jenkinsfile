@@ -10,6 +10,7 @@ spec:
   containers:
   - name: jnlp
     image: returntocorp/semgrep:latest
+    tty: true
 '''
         }
     }
