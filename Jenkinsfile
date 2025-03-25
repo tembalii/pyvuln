@@ -12,6 +12,10 @@ spec:
   containers:
   - name: semgrep
     image: semgrep/semgrep:latest
+    command:
+    - sleep
+    args:
+    - 99d
 '''
         }
     }
@@ -21,7 +25,7 @@ spec:
                 container('semgrep') {
                     script {
                         echo "Running Semgrep full scan..."
-                        sh 'semgrep'
+                        sh 'semgrep scan --config auto'
                     }
                 }
             }
