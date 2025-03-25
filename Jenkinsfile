@@ -8,11 +8,11 @@ metadata:
   name: semgrep-scanner
 spec:
   containers:
-  - name: jnlp
-    image: semgrep/semgrep:latest
+  - name: semgrep
+    image: returntocorp/semgrep:latest
     command:
-     - cat
-     tty: true
+    - cat
+    tty: true
 '''
         }
     }
@@ -20,7 +20,7 @@ spec:
     stages {
         stage('Semgrep-Scan') {
             steps {
-                container('jnlp') {
+                container('semgrep') {
                     script {
                         echo "Running Semgrep full scan..."
                         sh '''
