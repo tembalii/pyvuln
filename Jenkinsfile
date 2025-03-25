@@ -20,13 +20,16 @@ spec:
 '''
         }
     }
+    
+    stages {
         stage('Run Semgrep') {
             steps {
-                container('jnlp') {
+                container('semgrep') {
                     script {
                         echo "Running Semgrep full scan..."
                     }
                 }
             }
         }
+    }
 }
