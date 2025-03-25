@@ -12,10 +12,6 @@ spec:
   containers:
   - name: semgrep
     image: semgrep/semgrep:latest
-    command:
-    - sleep
-    args:
-    - 99d
 '''
         }
     }
