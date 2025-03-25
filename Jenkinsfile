@@ -37,7 +37,9 @@ spec:
             steps {
                 container('jnlp') {
                     script {
-                        sh 'ls -l'  # Debugging: Check files in the workspace
+                        sh ''' 
+                        ls -l  # Debugging: Check files in the workspace
+                        '''
                     }
                     archiveArtifacts artifacts: 'semgrep-results.json', fingerprint: true
                 }
