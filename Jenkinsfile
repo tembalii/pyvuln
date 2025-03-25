@@ -10,7 +10,7 @@ metadata:
     name: semgrep-scanner
 spec:
   containers:
-  - name: semgrep
+  - name: jnlp
     image: semgrep/semgrep:latest
     command:
     - sleep
@@ -22,7 +22,7 @@ spec:
     stages {
         stage('Run Semgrep') {
             steps {
-                container('semgrep') {
+                container('jnlp') {
                     script {
                         echo "Running Semgrep full scan..."
                         sh 'semgrep scan --config auto'
