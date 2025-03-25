@@ -10,26 +10,25 @@ spec:
   containers:
   - name: jnlp
     image: semgrep/semgrep:latest
-    command: ["semgrep ci"]
     tty: true
 '''
         }
     }
-    // stages {
-    //     stage('Checkout Code') {
-    //         steps {
-    //             checkout scm
-    //         }
-    //     }
-    //     stage('Run Semgrep') {
-    //         steps {
-    //             container('jnlp') {
-    //                 script {
-    //                     echo "Running Semgrep full scan..."
-    //                     sh 'semgrep scan --config auto'
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Run Semgrep') {
+            steps {
+                container('jnlp') {
+                    script {
+                        echo "Running Semgrep full scan..."
+                        sh 'semgrep scan --config auto'
+                    }
+                }
+            }
+        }
+    }
 }
