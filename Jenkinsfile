@@ -10,7 +10,7 @@ metadata:
     name: semgrep-scanner
 spec:
   containers:
-  - name: jnlp
+  - name: semgrep
     image: semgrep/semgrep:latest
     command:
     - sleep
@@ -19,15 +19,16 @@ spec:
 '''
         }
     }
-
-node(POD_LABEL) {
-    container('jnlp') {
-        script {
-            echo "Running Semgrep full scan..."
-            sh '''
-                semgrep
-            '''
+    stages {
+        stage('Run Semgrep') {
+            steps {
+                container('semgrep') {
+                    script {
+                        echo "Running Semgrep full scan..."
+                        sh 'semgrep'
+                    }
+                }
+            }
         }
     }
-}
 }
