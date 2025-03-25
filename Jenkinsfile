@@ -21,7 +21,7 @@ spec:
                     script {
                         echo "Running Semgrep full scan..."
                         sh '''
-                            semgrep scan --max-memory=1024 --json > semgrep.json --debug || true
+                            semgrep
                         '''
                     }
                 }
