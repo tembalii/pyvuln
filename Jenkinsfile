@@ -15,7 +15,9 @@ spec:
         - |
           apk add git && \
           git clone https://github.com/sebasrevuelta/moment && \
-          semgrep scan moment
+          semgrep scan --json --output semgrep-results.json moment && \
+          echo "Semgrep scan completed. Keeping container alive..." && \
+          tail -f /dev/null  # Prevents JNLP container from exiting
   restartPolicy: Never
 '''
         }
@@ -24,10 +26,20 @@ spec:
     stages {
         stage('Run Semgrep') {
             steps {
-                container('jnlp') {
+                container('jnlp') {  
                     script {
                         echo "Running Semgrep full scan..."
                     }
+                }
+            }
+        }
+        stage('Save Scan Results') {
+            steps {
+                container('jnlp') {
+                    script {
+                        sh 'ls -l'  # Debugging: Check files in the workspace
+                    }
+                    archiveArtifacts artifacts: 'semgrep-results.json', fingerprint: true
                 }
             }
         }
