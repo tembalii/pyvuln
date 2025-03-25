@@ -9,8 +9,10 @@ metadata:
 spec:
   containers:
   - name: jnlp
-    image: returntocorp/semgrep:latest
-    tty: true
+    image: semgrep/semgrep:latest
+    command:
+     - cat
+     tty: true
 '''
         }
     }
