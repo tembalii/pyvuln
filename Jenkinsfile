@@ -8,7 +8,7 @@ metadata:
   name: semgrep-scan
 spec:
   containers:
-    - name: semgrep
+    - name: jnlp
       image: semgrep/semgrep
       command: ["/bin/sh", "-c"]
       args:
@@ -24,7 +24,7 @@ spec:
     stages {
         stage('Run Semgrep') {
             steps {
-                container('semgrep') {
+                container('jnlp') {
                     script {
                         echo "Running Semgrep full scan..."
                     }
