@@ -16,8 +16,7 @@ spec:
           apk add git && \
           git clone https://github.com/sebasrevuelta/moment && \
           semgrep scan --json --output semgrep-results.json moment && \
-          echo "Semgrep scan completed. Keeping container alive..." && \
-          tail -f /dev/null  # Prevents JNLP container from exiting
+          echo "Semgrep scan completed. Keeping container alive..."
   restartPolicy: Never
 '''
         }
