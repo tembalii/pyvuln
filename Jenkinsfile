@@ -8,8 +8,6 @@ metadata:
   name: semgrep-scanner
 spec:
   containers:
-  - name: jnlp
-    image: jenkins/inbound-agent:latest
   - name: semgrep
     image: semgrep/semgrep:latest
     command: ["cat"]
